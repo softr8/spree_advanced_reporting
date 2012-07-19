@@ -17,10 +17,10 @@ en:
     geo_profit: "Geo Profit"
     base:
       range: Date Range
-      from: De
-      after: Depois
-      before: Antes
-      all: Todos
+      from: From
+      after: After
+      before: Before
+      all: All
       name: "Base Advanced Report"
       description: "Base Advanced Report"
     top_report:
