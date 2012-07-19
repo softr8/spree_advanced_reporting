@@ -1,10 +1,11 @@
 class Spree::AdvancedReport::TopReport::TopProducts < Spree::AdvancedReport::TopReport
+  
   def name
-    "Top Selling Products by Revenue"
+    I18n.t("adv_report.top_products.name")
   end
 
   def description
-    "Top selling products, calculated by revenue"
+    I18n.t("adv_report.top_products.description")
   end
 
   def initialize(params, limit)

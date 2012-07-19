@@ -13,18 +13,18 @@ class Spree::AdvancedReport::IncrementReport < Spree::AdvancedReport
       :daily => {
         :date_bucket => "%F",
         :date_display => "%m-%d-%Y",
-        :header_display => 'Daily',
+        :header_display => I18n.t("adv_report.daily"),
       },
       :weekly => {
-        :header_display => 'Weekly'
+        :header_display => I18n.t("adv_report.weekly")
       },
       :monthly => {
         :date_bucket => "%Y-%m",
         :date_display => "%B %Y",
-        :header_display => 'Monthly',
+        :header_display => I18n.t("adv_report.monthly"),
       },
       :quarterly => {
-        :header_display => 'Quarterly'
+        :header_display => I18n.t("adv_report.quaterly")
       },
       :yearly => {
         :date_bucket => "%Y",

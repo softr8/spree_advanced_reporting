@@ -1,14 +1,14 @@
 class Spree::AdvancedReport::IncrementReport::Units < Spree::AdvancedReport::IncrementReport
   def name
-    "Units Sold"
+    I18n.t("adv_report.increment_report.units.name")
   end
 
   def column
-    "Units"
+    I18n.t("adv_report.increment_report.units.column")
   end
 
   def description
-    "Total units sold in orders, a sum of the item quantities per order or per item"
+    I18n.t("adv_report.increment_report.units.description")
   end
 
   def initialize(params)

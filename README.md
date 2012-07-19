@@ -1,8 +1,10 @@
 # NOTES:
 
-This is working with Spree 1.0.0; don't know about prior versions.
+This branch is for use with Spree 1.1.0 and later.
 
 For Spree 1.1.0 (and possibly later), use the master branch.
+=======
+For Spree 1.0.x, use the spree-1-0 branch.
 
 Forked from what appeared to the be the most up to date for, and made the following general changes:
 

@@ -4,11 +4,11 @@ module Spree
     attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
     def name
-      "Base Advanced Report"
+      I18n.t("adv_report.base.name")
     end
 
     def description
-      "Base Advanced Report"
+      I18n.t("adv_report.base.description")
     end
 
     def initialize(params)
@@ -18,25 +18,27 @@ module Spree
       self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
       params[:search] ||= {}
-      if params[:search][:created_at_greater_than].blank?
+      if params[:search][:created_at_gt].blank?
         if (Order.count > 0) && Order.minimum(:completed_at)
-          params[:search][:created_at_greater_than] = Order.minimum(:completed_at).beginning_of_day
+          params[:search][:created_at_gt] = Order.minimum(:completed_at).beginning_of_day
         end
       else
-        params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
+        params[:search][:created_at_gt] = Time.zone.parse(params[:search][:created_at_gt]).beginning_of_day rescue ""
       end
-      if params[:search][:created_at_less_than].blank?
+      if params[:search][:created_at_lt].blank?
         if (Order.count > 0) && Order.maximum(:completed_at)
-          params[:search][:created_at_less_than] = Order.maximum(:completed_at).end_of_day
+          params[:search][:created_at_lt] = Order.maximum(:completed_at).end_of_day
         end
       else
-        params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
+        params[:search][:created_at_lt] = Time.zone.parse(params[:search][:created_at_lt]).end_of_day rescue ""
       end
 
-      params[:search][:completed_at_is_not_null] = true
+      params[:search][:completed_at_present] = "1"
+      params[:search][:state_not_eq] = 'canceled'
 
-      search = Order.metasearch(params[:search])
-      self.orders = search.state_does_not_equal('canceled')
+      search = Order.search(params[:search])
+      # self.orders = search.state_does_not_equal('canceled')
+      self.orders = search.result
 
       self.product_in_taxon = true
       if params[:advanced_reporting]
@@ -59,19 +61,19 @@ module Spree
       end
 
       # Above searchlogic date settings
-      self.date_text = "Date Range:"
+      self.date_text = "#{I18n.t("adv_report.base.range")}:"
       if self.unfiltered_params
-        if self.unfiltered_params[:created_at_greater_than] != '' && self.unfiltered_params[:created_at_less_than] != ''
-          self.date_text += " From #{self.unfiltered_params[:created_at_greater_than]} to #{self.unfiltered_params[:created_at_less_than]}"
-        elsif self.unfiltered_params[:created_at_greater_than] != ''
-          self.date_text += " After #{self.unfiltered_params[:created_at_greater_than]}"
-        elsif self.unfiltered_params[:created_at_less_than] != ''
-          self.date_text += " Before #{self.unfiltered_params[:created_at_less_than]}"
+        if self.unfiltered_params[:created_at_gt] != '' && self.unfiltered_params[:created_at_lt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.from")} #{self.unfiltered_params[:created_at_gt]} to #{self.unfiltered_params[:created_at_lt]}"
+        elsif self.unfiltered_params[:created_at_gt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.after")} #{self.unfiltered_params[:created_at_gt]}"
+        elsif self.unfiltered_params[:created_at_lt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.before")} #{self.unfiltered_params[:created_at_lt]}"
         else
-          self.date_text += " All"
+          self.date_text += " #{I18n.t("adv_report.base.all")}"
         end
       else
-        self.date_text += " All"
+        self.date_text += " #{I18n.t("adv_report.base.all")}"
       end
     end
 

@@ -1,14 +1,14 @@
 class Spree::AdvancedReport::IncrementReport::Count < Spree::AdvancedReport::IncrementReport
   def name
-    "Order Count"
+    I18n.t("adv_report.increment_report.count.name")
   end
 
   def column
-    "Count"
+    I18n.t("adv_report.increment_report.count.column")
   end
 
   def description
-    "Total number of completed orders"
+    I18n.t("adv_report.increment_report.count.description")
   end
 
   def initialize(params)

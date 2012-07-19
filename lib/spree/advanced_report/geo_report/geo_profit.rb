@@ -1,14 +1,14 @@
 class Spree::AdvancedReport::GeoReport::GeoProfit < Spree::AdvancedReport::GeoReport
   def name
-    "Profit by Geography"
+    I18n.t("adv_report.geo_report.profit.name")
   end
 
   def column
-    "Profit"
+    I18n.t("adv_report.geo_report.profit.column")
   end
 
   def description
-    "Profit divided geographically, into states and countries"
+    I18n.t("adv_report.geo_report.profit.description")
   end
 
   def initialize(params)

@@ -1,10 +1,10 @@
 class Spree::AdvancedReport::TopReport::TopCustomers < Spree::AdvancedReport::TopReport
   def name
-    "Top Customers"
+    I18n.t("adv_report.top_report.name")
   end
 
   def description
-    "Top purchasing customers, calculated by revenue"
+    I18n.t("adv_report.top_report.description")
   end
 
   def initialize(params, limit)
