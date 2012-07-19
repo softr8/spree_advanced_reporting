@@ -1,5 +1,10 @@
 en:
   adv_report:
+    dashboard: Dashboard
+    daily: Daily
+    weekly: Weekly
+    monthly: Monthly
+    Quaterly: Quaterly
     revenue: "Revenue"
     units: "Units"
     profit: "Profit"
@@ -10,3 +15,49 @@ en:
     geo_revenue: "Geo Revenue"
     geo_units: "Geo Units"
     geo_profit: "Geo Profit"
+    base:
+      range: Date Range
+      from: De
+      after: Depois
+      before: Antes
+      all: Todos
+      name: "Base Advanced Report"
+      description: "Base Advanced Report"
+    top_report:
+      top_customers:
+        name: "Top Customers"
+        description: "Top purchasing customers, calculated by revenue"
+      top_products:
+        name: "Top Selling Products by Revenue"
+        description: "Top selling products, calculated by revenue"
+    increment_report:
+      count:
+        name: "Order Count"
+        description: "Total number of completed orders"
+        column: "Count"
+      profit:
+        name: "Profit"
+        description: "Total profit in orders, where profit is the sum of item quantity times item price minus item cost price"
+        column: "Profit"
+      revenue:
+        name: "Revenue"
+        description: "Total order revenue, where revenue is the sum of order item prices, excluding shipping and tax"
+        column: "Revenue"
+      units:
+        name: "Units Sold"
+        description: "Total units sold in orders, a sum of the item quantities per order or per item"
+        column: "Units"
+    geo_report:
+      profit:
+        name: "Profit by Geography"
+        description: "Profit divided geographically, into states and countries"
+        column: "Profit"
+      revenue:
+        name: "Revenue by Geography"
+        description: "Revenue divided geographically, into states and countries"
+        column: "Revenue"
+      units:
+        name: "Units Sold by Geography"
+        description: "Unit sales divided geographically, into states and countries"
+        column: "Units"
+      

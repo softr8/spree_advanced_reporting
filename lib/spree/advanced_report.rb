@@ -4,11 +4,11 @@ module Spree
     attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
 
     def name
-      "Base Advanced Report"
+      I18n.t("adv_report.base.name")
     end
 
     def description
-      "Base Advanced Report"
+      I18n.t("adv_report.base.description")
     end
 
     def initialize(params)
@@ -61,19 +61,19 @@ module Spree
       end
 
       # Above searchlogic date settings
-      self.date_text = "Date Range:"
+      self.date_text = "#{I18n.t("adv_report.base.range")}:"
       if self.unfiltered_params
         if self.unfiltered_params[:created_at_gt] != '' && self.unfiltered_params[:created_at_lt] != ''
-          self.date_text += " From #{self.unfiltered_params[:created_at_gt]} to #{self.unfiltered_params[:created_at_lt]}"
+          self.date_text += " #{I18n.t("adv_report.base.from")} #{self.unfiltered_params[:created_at_gt]} to #{self.unfiltered_params[:created_at_lt]}"
         elsif self.unfiltered_params[:created_at_gt] != ''
-          self.date_text += " After #{self.unfiltered_params[:created_at_gt]}"
+          self.date_text += " #{I18n.t("adv_report.base.after")} #{self.unfiltered_params[:created_at_gt]}"
         elsif self.unfiltered_params[:created_at_lt] != ''
-          self.date_text += " Before #{self.unfiltered_params[:created_at_lt]}"
+          self.date_text += " #{I18n.t("adv_report.base.before")} #{self.unfiltered_params[:created_at_lt]}"
         else
-          self.date_text += " All"
+          self.date_text += " #{I18n.t("adv_report.base.all")}"
         end
       else
-        self.date_text += " All"
+        self.date_text += " #{I18n.t("adv_report.base.all")}"
       end
     end
 
