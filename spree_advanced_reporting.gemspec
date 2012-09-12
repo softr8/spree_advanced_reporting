@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_advanced_reporting'
-  s.version     = '2.2.2'
+  s.version     = '2.2.3'
   s.summary     = 'Advanced Reporting for Spree'
   s.homepage    = 'http://www.endpoint.com'
   s.author	= "Steph Skardal"

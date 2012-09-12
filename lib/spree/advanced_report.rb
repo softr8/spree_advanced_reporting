@@ -97,7 +97,7 @@ module Spree
     end
 
     def in_taxonomy?(product, taxon)
-      (product.taxons | taxon.self_and_children).present?
+      (product.taxons & taxon.self_and_ancestors).present?
     end
 
     def in_group?(product, group)
