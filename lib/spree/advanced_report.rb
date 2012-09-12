@@ -40,10 +40,14 @@ module Spree
       self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
       params[:search] ||= {}
-      params = prepare_for_interval(params, "created_at")
-      params = prepare_for_interval(params, "completed_at")
 
       params[:search][:state_equals] ||= "complete"
+
+      if params[:search][:state_equals] == "complete"
+        params = prepare_for_interval(params, "completed_at")
+      end
+      params = prepare_for_interval(params, "created_at")
+      
 
       search = Order.metasearch(params[:search])
       self.orders = search.state_does_not_equal('canceled')
