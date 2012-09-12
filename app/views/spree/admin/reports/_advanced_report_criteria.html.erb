@@ -20,11 +20,13 @@
 
     <div id="taxon_products">
     <% if @taxons -%>
-        <%=t "taxons"%>: <br /><%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => 'All' } ) %><br />
+        <%=t "taxons"%>: <br /><%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => t(:all) } ) %><br />
     <% end -%>
-    <%=t :products %>:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => 'All' } ) %><br />
+    <%=t :products %>:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => t(:all) } ) %><br />
     <%=t :states %>:<br />
       <%= select :search, :state_equals, order_states_options, selected: params[:search][:state_equals] %><br />
+    <%=t :payments %>:<br />
+      <%= select :search, :payments_payment_method_id_equals, payment_method_options, { :include_blank => t(:all), selected: params[:search][:payments_payment_method_id_equals]}  %><br />
     </div>
 
     <%= t("date_range") %><br />

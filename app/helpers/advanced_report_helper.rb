@@ -2,6 +2,10 @@ module AdvancedReportHelper
   def order_states_options
     order_states.inject([]){ |acc, value| acc << [t("order_state.#{value}"), value]; acc}
   end
+
+  def payment_method_options
+    Spree::PaymentMethod.all.map{|p| [p.name, p.id]}
+  end
   
   def order_states
     if Spree::Order.respond_to? :progress_states

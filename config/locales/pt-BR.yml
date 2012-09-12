@@ -1,4 +1,6 @@
 pt-BR:
+  all: Todos
+  payments: Método de pagamento
   completed_date_range: Completo entre datas
   adv_report:
     increments:
