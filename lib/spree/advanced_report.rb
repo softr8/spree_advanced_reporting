@@ -1,7 +1,9 @@
 module Spree
   class AdvancedReport
     include Ruport
-    attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params
+    attr_accessor :orders, :product_text, :date_text, :taxon_text, :ruportdata, 
+                  :data, :params, :taxon, :product, :product_in_taxon, :unfiltered_params, 
+                  :product_in_group, :group, :group_text
 
     def name
       I18n.t("adv_report.base.name")
@@ -47,24 +49,35 @@ module Spree
       self.orders = search.state_does_not_equal('canceled')
 
       self.product_in_taxon = true
+      self.product_in_group = true
       if params[:advanced_reporting]
         if params[:advanced_reporting][:taxon_id] && params[:advanced_reporting][:taxon_id] != ''
           self.taxon = Taxon.find(params[:advanced_reporting][:taxon_id])
+        end
+        if params[:advanced_reporting][:group_id] && params[:advanced_reporting][:group_id] != ''
+          self.group = ProductGroup.find(params[:advanced_reporting][:group_id])
         end
         if params[:advanced_reporting][:product_id] && params[:advanced_reporting][:product_id] != ''
           self.product = Product.find(params[:advanced_reporting][:product_id])
         end
       end
-      if self.taxon && self.product && !in_taxonomy?(product, taxon)
+      if taxon && product && !in_taxonomy?(product, taxon)
         self.product_in_taxon = false
       end
+      if group && product && !in_group?(product, group)
+        self.product_in_group = false
+      end
 
-      if self.product
+      if product
         self.product_text = "Product: #{self.product.name}<br />"
       end
-      if self.taxon
+      if taxon
         self.taxon_text = "Taxon: #{self.taxon.name}<br />"
       end
+      if group
+        self.group_text = "Group: #{self.group.name}<br />"
+      end
+
 
       # Above searchlogic date settings
       self.date_text = "#{I18n.t("adv_report.base.range")}:"
@@ -84,7 +97,11 @@ module Spree
     end
 
     def in_taxonomy?(product, taxon)
-      (product.taxons | taxon.self_and_ancestors).present?
+      (product.taxons | taxon.self_and_children).present?
+    end
+
+    def in_group?(product, group)
+      product.in? group.products
     end
 
     def download_url(base, format, report_type = nil)
@@ -108,6 +125,8 @@ module Spree
         rev = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += b.quantity * b.price }
       elsif !self.taxon.nil?
         rev = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |a, b| a += b.quantity * b.price }
+      elsif !self.group.nil?
+        rev = order.line_items.select { |li| li.product && in_group?(li.product, group) }.inject(0) { |a, b| a += b.quantity * b.price }        
       end
       adjustment_revenue = order.adjustments.sum(:amount)
       rev += adjustment_revenue if rev > 0
@@ -119,7 +138,11 @@ module Spree
       if !self.product.nil? && product_in_taxon
         profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
       elsif !self.taxon.nil?
-        profit = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+        profit = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }
+                .inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+      elsif !group.nil?
+        profit = order.line_items.select { |li| li.product && in_group?(li.product, group) }
+                .inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
       end
       adjustments_profit = order.adjustments.sum(:amount) - order.adjustments.sum(:cost)
       profit += adjustments_profit
@@ -132,6 +155,8 @@ module Spree
         units = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += line_items_units(b) }
       elsif !self.taxon.nil?
         units = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |a, b| a += line_items_units(b) }
+      elsif !self.group.nil?
+        units = order.line_items.select { |li| li.product && in_group?(li.product, group) }.inject(0) { |a, b| a += line_items_units(b) }
       end
       self.product_in_taxon ? units : 0
     end

@@ -22,6 +22,11 @@
     <% if @taxons -%>
         <%=t "taxons"%>: <br /><%= collection_select(:advanced_reporting, :taxon_id, @taxons, :id, :name, { :include_blank => t(:all) } ) %><br />
     <% end -%>
+    <% if @groups -%>
+        <%=t "group"%>: <br />
+        <%= collection_select(:advanced_reporting, :group_id, @groups, :id, :name, { :include_blank => t(:all), selected:params[:advanced_reporting][:group_id] } ) %>
+        <br />
+    <% end -%>
     <%=t :products %>:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => t(:all) } ) %><br />
     <%=t :states %>:<br />
       <%= select :search, :state_equals, order_states_options, selected: params[:search][:state_equals] %><br />

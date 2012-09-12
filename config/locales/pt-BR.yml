@@ -1,5 +1,6 @@
 pt-BR:
   all: Todos
+  group: Grupo de Produtos
   payments: Método de pagamento
   completed_date_range: Completo entre datas
   adv_report:

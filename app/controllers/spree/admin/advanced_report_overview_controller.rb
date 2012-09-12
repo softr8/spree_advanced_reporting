@@ -3,6 +3,7 @@ class Spree::Admin::AdvancedReportOverviewController < Spree::Admin::BaseControl
     @reports = Spree::Admin::ReportsController::ADVANCED_REPORTS
     @products = Spree::Product.all
     @taxons = Spree::Taxon.all
+    @groups = Spree::ProductGroup.all
     if defined?(MultiDomainExtension)
       @stores = Store.all
     end

@@ -5,6 +5,7 @@
         <h1><%=t "adv_report." + @report.name.downcase.gsub(/ /,"_") %></h1>
         <p><%= @report.description %></p>
         <%= @report.taxon_text %>
+        <%= @report.group_text %>
         <%= @report.product_text %>
     </div>
 
