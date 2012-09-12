@@ -26,7 +26,7 @@ class Spree::AdvancedReport::TopReport::TopCustomers < Spree::AdvancedReport::To
     data.inject({}) { |h, (k, v) | h[k] = v[:revenue]; h }.sort { |a, b| a[1] <=> b [1] }.reverse[0..4].each do |k, v|
       ruportdata << { "email" => data[k][:email], I18n.t("adv_report.units") => data[k][:units], I18n.t("adv_report.revenue") => data[k][:revenue] } 
     end
-    ruportdata.replace_column(I18n.t("adv_report.revenue")) { |r| "$%0.2f" % r.send(I18n.t("adv_report.revenue")) }
+    ruportdata.replace_column(I18n.t("adv_report.revenue")) { |r| "%0.2f" % r.send(I18n.t("adv_report.revenue")) }
     ruportdata.rename_column("email", I18n.t("adv_report.top_report.top_customers.customer_email"))
   end
 end

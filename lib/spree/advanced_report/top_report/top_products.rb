@@ -29,7 +29,7 @@ class Spree::AdvancedReport::TopReport::TopProducts < Spree::AdvancedReport::Top
       ruportdata << { "name" => data[k][:name], I18n.t("adv_report.units") => data[k][:units], I18n.t("adv_report.revenue") => data[k][:revenue] } 
     end
 
-    ruportdata.replace_column(I18n.t("adv_report.revenue")) { |r| "$%0.2f" % r.send(I18n.t("adv_report.revenue")) }
+    ruportdata.replace_column(I18n.t("adv_report.revenue")) { |r| "%0.2f" % r.send(I18n.t("adv_report.revenue")) }
     ruportdata.rename_column("name", I18n.t("adv_report.top_report.top_products.product_name"))
   end
 end

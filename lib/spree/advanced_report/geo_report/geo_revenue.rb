@@ -17,6 +17,7 @@ class Spree::AdvancedReport::GeoReport::GeoRevenue < Spree::AdvancedReport::GeoR
     data = { :state => {}, :country => {} }
     orders.each do |order|
       revenue = revenue(order)
+      next if order.bill_address.blank?
       if order.bill_address.state
         data[:state][order.bill_address.state_id] ||= {
           :name => order.bill_address.state.name,
@@ -38,7 +39,7 @@ class Spree::AdvancedReport::GeoReport::GeoRevenue < Spree::AdvancedReport::GeoR
       data[type].each { |k, v| ruportdata[type] << { "location" => v[:name], I18n.t("adv_report.revenue") => v[:revenue] } }
       ruportdata[type].sort_rows_by!([I18n.t("adv_report.revenue")], :order => :descending)
       ruportdata[type].rename_column("location", type.to_s.capitalize)
-      ruportdata[type].replace_column(I18n.t("adv_report.revenue")) { |r| "$%0.2f" % r.send(I18n.t("adv_report.revenue")) }
+      ruportdata[type].replace_column(I18n.t("adv_report.revenue")) { |r| "%0.2f" % r.send(I18n.t("adv_report.revenue")) }
     end
   end
 end
