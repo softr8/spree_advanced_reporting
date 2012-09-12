@@ -19,7 +19,7 @@ class Spree::AdvancedReport::TopReport::TopProducts < Spree::AdvancedReport::Top
             :units => 0
           }
           data[li.product.id][:revenue] += li.quantity*li.price 
-          data[li.product.id][:units] += li.quantity
+          data[li.product.id][:units] += line_items_units(li)
         end
       end
     end

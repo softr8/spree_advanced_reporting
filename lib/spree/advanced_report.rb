@@ -11,6 +11,26 @@ module Spree
       I18n.t("adv_report.base.description")
     end
 
+    def prepare_for_interval(params, criteria)
+      greater = "#{criteria}_greater_than".to_sym
+      less = "#{criteria}_less_than".to_sym
+      if params[:search][greater].blank?
+        if (Order.count > 0) && Order.minimum(:completed_at)
+          params[:search][greater] = Order.minimum(:completed_at).beginning_of_day
+        end
+      else
+        params[:search][greater] = Time.zone.parse(params[:search][greater]).beginning_of_day rescue ""
+      end
+      if params[:search][less].blank?
+        if (Order.count > 0) && Order.maximum(:completed_at)
+          params[:search][less] = Order.maximum(:completed_at).end_of_day
+        end
+      else
+        params[:search][less] = Time.zone.parse(params[:search][less]).end_of_day rescue ""
+      end
+      return params
+    end
+
     def initialize(params)
       self.params = params
       self.data = {}
@@ -18,20 +38,8 @@ module Spree
       self.unfiltered_params = params[:search].blank? ? {} : params[:search].clone
 
       params[:search] ||= {}
-      if params[:search][:created_at_greater_than].blank?
-        if (Order.count > 0) && Order.minimum(:completed_at)
-          params[:search][:created_at_greater_than] = Order.minimum(:completed_at).beginning_of_day
-        end
-      else
-        params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
-      end
-      if params[:search][:created_at_less_than].blank?
-        if (Order.count > 0) && Order.maximum(:completed_at)
-          params[:search][:created_at_less_than] = Order.maximum(:completed_at).end_of_day
-        end
-      else
-        params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
-      end
+      params = prepare_for_interval(params, "created_at")
+      params = prepare_for_interval(params, "completed_at")
 
       params[:search][:state_equals] ||= "complete"
 

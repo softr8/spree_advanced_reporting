@@ -1,4 +1,5 @@
 pt-BR:
+  completed_date_range: Completo entre datas
   adv_report:
     increments:
       - diario

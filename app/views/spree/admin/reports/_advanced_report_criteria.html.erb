@@ -38,6 +38,17 @@
         <label><%= t("stop") %></label>
       </div>
     </div>
+    <%= t("completed_date_range") %><br />
+    <div class="yui-g date-range-filter">
+      <div class="yui-u sub-field first">
+        <%= s.text_field :completed_at_greater_than , :class => 'datepicker'%><br />
+        <label class="sub"><%= t("start") %></label>
+      </div>
+      <div class="yui-u sub-field">
+        <%= s.text_field :completed_at_less_than ,  :class => 'datepicker' %><br />
+        <label><%= t("stop") %></label>
+      </div>
+    </div>
 
     <p><%= button t("update") %></p>
   <% end -%>
