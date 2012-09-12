@@ -47,7 +47,7 @@ module Spree
           self.product = Product.find(params[:advanced_reporting][:product_id])
         end
       end
-      if self.taxon && self.product && !self.product.taxons.include?(self.taxon)
+      if self.taxon && self.product && !in_taxonomy?(product, taxon)
         self.product_in_taxon = false
       end
 
@@ -75,6 +75,10 @@ module Spree
       end
     end
 
+    def in_taxonomy?(product, taxon)
+      (product.taxons | taxon.self_and_ancestors).present?
+    end
+
     def download_url(base, format, report_type = nil)
       elements = []
       params[:advanced_reporting] ||= {}
@@ -95,7 +99,7 @@ module Spree
       if !self.product.nil? && product_in_taxon
         rev = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += b.quantity * b.price }
       elsif !self.taxon.nil?
-        rev = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |a, b| a += b.quantity * b.price }
+        rev = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |a, b| a += b.quantity * b.price }
       end
       adjustment_revenue = order.adjustments.sum(:amount)
       rev += adjustment_revenue if rev > 0
@@ -107,7 +111,7 @@ module Spree
       if !self.product.nil? && product_in_taxon
         profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
       elsif !self.taxon.nil?
-        profit = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+        profit = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
       end
       adjustments_profit = order.adjustments.sum(:amount) - order.adjustments.sum(:cost)
       profit += adjustments_profit
@@ -115,13 +119,17 @@ module Spree
     end
 
     def units(order)
-      units = order.line_items.inject(0){ |units, li| units + (li.quantity * li.variant.bundle_quantity)}
+      units = order.line_items.inject(0){ |units, li| units + line_items_units(li)}
       if !self.product.nil? && product_in_taxon
-        units = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += (b.quantity * b.variant.bundle_quantity) }
+        units = order.line_items.select { |li| li.product == self.product }.inject(0) { |a, b| a += line_items_units(b) }
       elsif !self.taxon.nil?
-        units = order.line_items.select { |li| li.product && li.product.taxons.include?(self.taxon) }.inject(0) { |a, b| a += (b.quantity * b.variant.bundle_quantity) }
+        units = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }.inject(0) { |a, b| a += line_items_units(b) }
       end
       self.product_in_taxon ? units : 0
+    end
+
+    def line_items_units(line_item)
+      line_item.variant.respond_to?(:bundle_quantity) ? line_item.quantity * line_item.variant.bundle_quantity : line_item.quantity
     end
 
     def order_count(order)
