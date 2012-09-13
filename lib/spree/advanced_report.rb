@@ -138,15 +138,15 @@ module Spree
     end
 
     def profit(order)
-      profit = order.line_items.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+      profit = order.line_items.inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
       if !self.product.nil? && product_in_taxon
-        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+        profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
       elsif !self.taxon.nil?
         profit = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }
-                .inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+                .inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
       elsif !group.nil?
         profit = order.line_items.select { |li| li.product && in_group?(li.product, group) }
-                .inject(0) { |profit, li| profit + (li.variant.price - li.variant.cost_price.to_f)*li.quantity }
+                .inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
       end
       adjustments_profit = order.adjustments.sum(:amount) - order.adjustments.sum(:cost)
       profit += adjustments_profit
@@ -165,8 +165,19 @@ module Spree
       self.product_in_taxon ? units : 0
     end
 
-    def line_items_units(line_item)
-      line_item.variant.respond_to?(:bundle_quantity) ? line_item.quantity * line_item.variant.bundle_quantity : line_item.quantity
+    def li_margin(li)
+      cost = li.respond_to?(:cost) ? li.cost.to_f : li.variant.cost_price.to_f
+      li.price - cost
+    end
+    
+    def line_items_units(li)
+      bundle_quantity = 1
+      if li.respond_to?(:bundle_quantity)
+        bundle_quantity = li.bundle_quantity
+      elsif li.variant.respond_to?(:bundle_quantity)
+        bundle_quantity = li.variant.bundle_quantity
+      end
+      li.quantity * bundle_quantity
     end
 
     def order_count(order)
