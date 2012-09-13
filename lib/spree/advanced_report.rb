@@ -139,16 +139,19 @@ module Spree
 
     def profit(order)
       profit = order.line_items.inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
+      adjustments_profit = order.adjustments.sum(:amount) - order.adjustments.sum(:cost)
       if !self.product.nil? && product_in_taxon
         profit = order.line_items.select { |li| li.product == self.product }.inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
+        adjustments_profit = 0
       elsif !self.taxon.nil?
         profit = order.line_items.select { |li| li.product && in_taxonomy?(li.product, taxon) }
                 .inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
+        adjustments_profit = 0
       elsif !group.nil?
         profit = order.line_items.select { |li| li.product && in_group?(li.product, group) }
                 .inject(0) { |profit, li| profit + li_margin(li)*li.quantity }
+        adjustments_profit = 0
       end
-      adjustments_profit = order.adjustments.sum(:amount) - order.adjustments.sum(:cost)
       profit += adjustments_profit
       self.product_in_taxon ? profit : 0
     end
@@ -169,7 +172,7 @@ module Spree
       cost = li.respond_to?(:cost) ? li.cost.to_f : li.variant.cost_price.to_f
       li.price - cost
     end
-    
+
     def line_items_units(li)
       bundle_quantity = 1
       if li.respond_to?(:bundle_quantity)
