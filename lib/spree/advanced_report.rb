@@ -14,8 +14,8 @@ module Spree
     end
 
     def prepare_for_interval(params, criteria)
-      greater = "#{criteria}_greater_than".to_sym
-      less = "#{criteria}_less_than".to_sym
+      greater = "#{criteria}_gt".to_sym
+      less = "#{criteria}_lt".to_sym
       if params[:search][greater].blank?
         if (Order.count > 0) && Order.minimum(:completed_at)
           params[:search][greater] = Order.minimum(:completed_at).beginning_of_day
@@ -41,16 +41,16 @@ module Spree
 
       params[:search] ||= {}
 
-      params[:search][:state_equals] ||= "complete"
+      params[:search][:state_eq] ||= "complete"
 
-      if params[:search][:state_equals] == "complete"
+      if params[:search][:state_eq] == "complete"
         params = prepare_for_interval(params, "completed_at")
       end
       params = prepare_for_interval(params, "created_at")
       
 
-      search = Order.metasearch(params[:search])
-      self.orders = search.state_does_not_equal('canceled')
+      search = Order.ransack(params[:search])
+      self.orders = search.result
 
       self.product_in_taxon = true
       self.product_in_group = true
@@ -86,12 +86,12 @@ module Spree
       # Above searchlogic date settings
       self.date_text = "#{I18n.t("adv_report.base.range")}:"
       if self.unfiltered_params
-        if self.unfiltered_params[:created_at_greater_than] != '' && self.unfiltered_params[:created_at_less_than] != ''
-          self.date_text += " #{I18n.t("adv_report.base.from")} #{self.unfiltered_params[:created_at_greater_than]} to #{self.unfiltered_params[:created_at_less_than]}"
-        elsif self.unfiltered_params[:created_at_greater_than] != ''
-          self.date_text += " #{I18n.t("adv_report.base.after")} #{self.unfiltered_params[:created_at_greater_than]}"
-        elsif self.unfiltered_params[:created_at_less_than] != ''
-          self.date_text += " #{I18n.t("adv_report.base.before")} #{self.unfiltered_params[:created_at_less_than]}"
+        if self.unfiltered_params[:created_at_gt] != '' && self.unfiltered_params[:created_at_lt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.from")} #{self.unfiltered_params[:created_at_gt]} to #{self.unfiltered_params[:created_at_lt]}"
+        elsif self.unfiltered_params[:created_at_gt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.after")} #{self.unfiltered_params[:created_at_gt]}"
+        elsif self.unfiltered_params[:created_at_lt] != ''
+          self.date_text += " #{I18n.t("adv_report.base.before")} #{self.unfiltered_params[:created_at_lt]}"
         else
           self.date_text += " #{I18n.t("adv_report.base.all")}"
         end

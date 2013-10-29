@@ -31,30 +31,30 @@
     <% end -%>
     <%=t :products %>:<br /><%= collection_select(:advanced_reporting, :product_id, @products, :id, :name, { :include_blank => t(:all) } ) %><br />
     <%=t :states %>:<br />
-      <%= select :search, :state_equals, order_states_options, {selected: params[:search][:state_equals], :include_blank => t(:all)} %><br />
+      <%= select :search, :state_eq, order_states_options, {selected: params[:search][:state_eq], :include_blank => t(:all)} %><br />
     <%=t :payments %>:<br />
-      <%= select :search, :payments_payment_method_id_equals, payment_method_options, { :include_blank => t(:all), selected: params[:search][:payments_payment_method_id_equals]}  %><br />
+      <%= select :search, :payments_payment_method_id_eq, payment_method_options, { :include_blank => t(:all), selected: params[:search][:payments_payment_method_id_eq]}  %><br />
     </div>
 
     <%= t("date_range") %><br />
     <div class="yui-g date-range-filter">
       <div class="yui-u sub-field first">
-        <%= s.text_field :created_at_greater_than , :class => 'datepicker'%><br />
+        <%= s.text_field :created_at_gt, value: params[:search][:created_at_gt], :class => 'datepicker'%><br />
         <label class="sub"><%= t("start") %></label>
       </div>
       <div class="yui-u sub-field">
-        <%= s.text_field :created_at_less_than ,  :class => 'datepicker' %><br />
+        <%= s.text_field :created_at_lt, value: params[:search][:created_at_lt],  :class => 'datepicker' %><br />
         <label><%= t("stop") %></label>
       </div>
     </div>
     <%= t("completed_date_range") %><br />
     <div class="yui-g date-range-filter">
       <div class="yui-u sub-field first">
-        <%= s.text_field :completed_at_greater_than , :class => 'datepicker'%><br />
+        <%= s.text_field :completed_at_gt, value: params[:search][:completed_at_gt], :class => 'datepicker'%><br />
         <label class="sub"><%= t("start") %></label>
       </div>
       <div class="yui-u sub-field">
-        <%= s.text_field :completed_at_less_than ,  :class => 'datepicker' %><br />
+        <%= s.text_field :completed_at_lt, value: params[:search][:completed_at_lt],  :class => 'datepicker' %><br />
         <label><%= t("stop") %></label>
       </div>
     </div>
@@ -67,8 +67,8 @@
 <%= javascript_include_tag 'admin/advanced_reporting/jquery.tablesorter.min.js', 'admin/advanced_reporting/advanced_reporting.js' %>
 <%= stylesheet_link_tag 'admin/advanced_reporting/advanced_reporting' %>
 <script type="text/javascript">
-var created_at_less_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_less_than]) ? @report.unfiltered_params[:created_at_less_than] : '' %>";
-var created_at_greater_than = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_greater_than]) ? @report.unfiltered_params[:created_at_greater_than] : '' %>";
+var created_at_lt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_lt]) ? @report.unfiltered_params[:created_at_lt] : '' %>";
+var created_at_gt = "<%= (@report.unfiltered_params && @report.unfiltered_params[:created_at_gt]) ? @report.unfiltered_params[:created_at_gt] : '' %>";
 </script>
 <% end -%>
 
