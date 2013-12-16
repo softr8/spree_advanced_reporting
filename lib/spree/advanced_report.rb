@@ -50,7 +50,7 @@ module Spree
       
 
       search = Order.ransack(params[:search])
-      self.orders = search.result
+      self.orders = search.result(distinct: true)
 
       self.product_in_taxon = true
       self.product_in_group = true
