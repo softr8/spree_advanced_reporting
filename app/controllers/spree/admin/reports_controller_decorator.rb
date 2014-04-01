@@ -15,7 +15,7 @@ Spree::Admin::ReportsController.class_eval do
     ADVANCED_REPORTS[x]= {name: I18n.t("adv_report.#{x}"), :description => I18n.t("adv_report.#{x}")}
   end
 
-  Spree::Admin::ReportsController::AVAILABLE_REPORTS.merge!(ADVANCED_REPORTS)
+  Spree::Admin::ReportsController::available_reports.merge!(ADVANCED_REPORTS)
 
   before_filter :basic_report_setup, :actions => ADVANCED_REPORTS.keys
    

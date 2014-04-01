@@ -1,4 +1,4 @@
- Spree::Core::Engine.routes.prepend do
+ Spree::Core::Engine.routes.draw do
   match '/admin/reports/outstanding' => 'admin/reports#outstanding',  :via  => [:get, :post],
                                                             :as   => 'outstanding_admin_reports'
 
