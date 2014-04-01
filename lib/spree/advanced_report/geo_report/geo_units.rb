@@ -10,7 +10,6 @@ class Spree::AdvancedReport::GeoReport::GeoUnits < Spree::AdvancedReport::GeoRep
   def description
     I18n.t("adv_report.geo_report.units.description")
   end
-
   def initialize(params)
     super(params)
 
@@ -34,9 +33,9 @@ class Spree::AdvancedReport::GeoReport::GeoUnits < Spree::AdvancedReport::GeoRep
     end
 
     [:state, :country].each do |type|
-      ruportdata[type] = Table(%w[location Units])
-      data[type].each { |k, v| ruportdata[type] << { "location" => v[:name], "Units" => v[:units] } }
-      ruportdata[type].sort_rows_by!(["Units"], :order => :descending)
+      ruportdata[type] = Table(I18n.t("adv_report.geo_report.units.table"))
+      data[type].each { |k, v| ruportdata[type] << { "location" => v[:name], I18n.t("adv_report.units") => v[:units] } }
+      ruportdata[type].sort_rows_by!([I18n.t("adv_report.units")], :order => :descending)
       ruportdata[type].rename_column("location", type.to_s.capitalize)
     end
   end

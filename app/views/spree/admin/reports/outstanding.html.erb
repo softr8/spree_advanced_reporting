@@ -1,0 +1,16 @@
+<h1><%= t("adv_report.outstanding") %>: <%= number_to_currency @outstanding_balance %> </h1>
+
+<table style="width:40%;">
+  <tr>
+    <th><%= t(:order) %>:</th>
+    <th><%= t(:order_date) %>:</th>
+    <th><%= t("adv_report.outstanding") %>:</th>
+  </tr>
+  <% @orders.each do |order| %>
+    <tr>
+      <td><%= link_to order.number, admin_order_path(order) %></td>
+      <td><%= l order.completed_at.to_date %></td>
+      <td><%= order.outstanding_balance %></td>
+    </tr>
+  <% end %>
+</table>

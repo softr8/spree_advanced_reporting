@@ -14,20 +14,22 @@
     </div>
 
     <ul id="show_data">
-        <li class="selected" id="state">
-            <label>States</label><br />
-            <a href="<%= @report.download_url(request.fullpath, 'csv', "state") %>">CSV</a>
+        <li id="state">
+            <label><%= t("adv_report.states") %></label><br />
+            <%= link_to "CSV", @report.download_url(request.fullpath, 'csv', "state") %>
+            <%= link_to "PDF", @report.download_url(request.fullpath, 'pdf', "state") %>
         </li>
         <li id="country">
-            <label>Countries</label><br />
-            <a href="<%= @report.download_url(request.fullpath, 'csv', "country") %>">CSV</a>
+            <label><%= t("adv_report.countries") %></label><br />
+            <%= link_to "CSV", @report.download_url(request.fullpath, 'csv', "country") %>
+            <%= link_to "PDF", @report.download_url(request.fullpath, 'pdf', "country") %>
         </li>
     </ul>
     <%= render :partial => 'spree/admin/reports/advanced_report_criteria', :locals => {} %>
 <% end -%>
 
 <% content_for :head do -%>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load('visualization', '1', {'packages': ['geomap']});        
     </script>

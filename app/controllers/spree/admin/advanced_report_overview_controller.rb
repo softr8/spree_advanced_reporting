@@ -9,7 +9,7 @@ class Spree::Admin::AdvancedReportOverviewController < Spree::Admin::BaseControl
     @report = Spree::AdvancedReport::IncrementReport::Revenue.new({ :search => {} })
     @top_products_report = Spree::AdvancedReport::TopReport::TopProducts.new({ :search => {} }, 5)
     @top_customers_report = Spree::AdvancedReport::TopReport::TopCustomers.new({ :search => {} }, 5)
-    @top_customers_report.ruportdata.remove_column("Units")
+    @top_customers_report.ruportdata.remove_column(I18n.t("adv_report.units"))
 
     # From overview_dashboard, Cleanup eventually
     orders = Spree::Order.find(:all, :order => "completed_at DESC", :limit => 10, :include => :line_items, :conditions => "completed_at is not null")

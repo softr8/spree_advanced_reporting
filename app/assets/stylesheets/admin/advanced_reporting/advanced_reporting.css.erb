@@ -1,0 +1,18 @@
+/* without overriding the default spree_core in spree admin you can't include CSS */
+/* easier to precompile this asset and include manually via stylesheet tag */
+
+div.canvas { padding-bottom: 20px; }
+
+table.tablesorter th.header { background-image: url(<%= asset_path 'admin/advanced_reporting/bg.gif'%>); cursor: pointer; font-weight: bold; background-repeat: no-repeat; background-position: center left; padding-left: 20px; border-right: 1px solid #dad9c7;  margin-left: -1px; } 
+table.tablesorter th.headerSortUp { background-image: url(<%= asset_path 'admin/advanced_reporting/asc.gif'%>); background-color: #3399FF; }
+table.tablesorter th.headerSortDown { background-image: url(<%= asset_path 'admin/advanced_reporting/desc.gif'%>); background-color: #3399FF; }
+
+#sidebar #advanced_report_search h1, 
+#sidebar #advanced_report_search h2,
+#sidebar #advanced_report_search h3 {
+	margin-left:0;
+}
+
+#sidebar #advanced_report_search select {
+	max-width: 100%;
+}

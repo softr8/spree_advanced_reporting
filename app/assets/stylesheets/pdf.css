@@ -1,0 +1,15 @@
+body { font:normal 100%/1.25 Helvetica, Arial, Verdana, sans-serif; }
+
+.odd { background-color: #e6e6e6; }
+
+/*
+ * Page breaking seems like a tricky issue...
+ * http://stackoverflow.com/questions/1763639/how-to-deal-with-page-breaks-when-printing-a-large-html-table
+ * http://stackoverflow.com/questions/8786755/wkhtmltopdf-characters-in-single-line-partially-cut-between-pages
+ * http://stackoverflow.com/questions/1539876/controlling-css-page-breaks-when-printing-in-webkit
+ * 
+ * as long as vertical-align:bottom is set on all tds, and a recent version of the binary is installed, 
+ * things seem to work well enough (not clean breaks, but nothing is cut off)
+ */
+
+td { vertical-align: bottom; padding:5px; }

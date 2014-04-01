@@ -1,5 +1,5 @@
 <% @report.increments.each do |type| -%>
-    <div id="<%= type.to_s %>_data" <%= 'style=display:none;' if type.to_s != 'daily' %> class="advanced_reporting_data">
+    <div id="<%= type.to_s %>_data" <%= 'style=display:none;' if type.to_s != t("adv_report.daily").downcase %> class="advanced_reporting_data">
         <div id="<%= type.to_s %>_chart"></div>
         <%= raw @report.ruportdata[type].to_html %>
     </div>
@@ -8,9 +8,10 @@
 <% content_for :sidebar do %>
     <div class="report_details">
         <h1><%=t "adv_report." + @report.name.downcase.gsub(/ /,"_") %></h1>
-        <div class="links">
-            <a href="<%= @report.download_url(request.fullpath, 'csv', "all") %>">CSV</a>
-        </div>
+        <p class="links">
+            <%= link_to "CSV (all)", @report.download_url(request.fullpath, 'csv', "all") %><br/>
+            <%= link_to "PDF (all)", @report.download_url(request.fullpath, 'pdf', "all") %>
+        </p>
         <%= @report.description %><br />
         <%== @report.product_text %>
         <%== @report.taxon_text %>
@@ -20,9 +21,10 @@
 
     <ul id="show_data">
         <% @report.increments.each do |inc| %>
-            <li <%= 'class=selected' if inc == :daily %> id="<%= inc.to_s %>">
+            <li id="<%= inc.to_s %>">
                 <label><%= inc.to_s.capitalize %></label><br />
-                <a href="<%= @report.download_url(request.fullpath, 'csv', inc.to_s) %>">CSV</a>
+                <%= link_to "CSV", @report.download_url(request.fullpath, 'csv', inc) %>
+                <%= link_to "PDF", @report.download_url(request.fullpath, 'pdf', inc) %>
             </li>
         <% end -%>
     </ul>
@@ -30,7 +32,7 @@
 <% end %>
 
 <% content_for :head do -%>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load('visualization', '1', {'packages': ['corechart']});	
     </script>

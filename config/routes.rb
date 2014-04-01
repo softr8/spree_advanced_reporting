@@ -1,11 +1,7 @@
  Spree::Core::Engine.routes.prepend do
-  #namespace :admin do
-  #  resources :reports, :only => [:index, :show] do
-  #    collection do
-  #      get :sales_total
-  #    end
-  #  end
-  #end
+  match '/admin/reports/outstanding' => 'admin/reports#outstanding',  :via  => [:get, :post],
+                                                            :as   => 'outstanding_admin_reports'
+
   match '/admin/reports/revenue' => 'admin/reports#revenue',  :via  => [:get, :post],
                                                               :as   => 'revenue_admin_reports'
 
@@ -33,6 +29,9 @@
 
   match '/admin/reports/geo_profit' => 'admin/reports#geo_profit', :via => [:get, :post],
                                                                     :as => 'geo_profit_admin_reports'
+
+  match '/admin/reports/transactions' => 'admin/reports#transactions', :via => [:get, :post],
+                                                                       :as => 'transactions_admin_reports'
 
   # match "/admin" => "admin/advanced_report_overview#index", :as => :admin
 end

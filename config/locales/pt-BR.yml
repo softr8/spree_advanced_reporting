@@ -1,0 +1,92 @@
+pt-BR:
+  adv_report:
+    increments:
+      - diario
+      - semanal
+      - mensal
+      - trimestral
+      - anual
+    dashboard: Dashboard
+    daily: Diario
+    weekly: Semanal
+    monthly: Mensal
+    quaterly: Trimestral
+    yearly: Anual
+    revenue: Receita
+    units: Unidades
+    profit: Lucro
+    count: Num Pedidos
+    top_products: "Melhores Produtos"
+    top_customers: "Melhores Clientes"
+    submit: "Enviar"
+    geo_revenue: "Receita por Estado"
+    geo_units: "Unidades por Estado"
+    geo_profit: "Lucro por Estado"
+    outstanding: "Recebiveis"
+    outstanding_description: "Valor a ser pago por clientes que parcelaram a compra"
+    states: Estados
+    countries: Paises
+    base:
+      range: Intervalo
+      from: De
+      after: Depois
+      before: Antes
+      all: Todos
+      name: "Relatório avançado base"
+      description: "Relatório avançado base"
+    top_report:
+      top_customers:
+        table:
+          - email
+          - Unidades
+          - Receita
+        customer_email: Email do cliente
+        name: "Melhores Clientes"
+        description: "Clientes que mais compraram, calculado pela receita"
+      top_products:
+        table:
+          - name
+          - Unidades
+          - Receita
+        product_name: "Nome do Produto"
+        name: "Produtos mais vendidos por receita"
+        description: "Produtos mais vendidos, calculado pela receita"
+    increment_report:
+      count:
+        name: "Pedidos"
+        description: "Numero total de pedidos completos"
+        column: "Pedidos"
+      profit:
+        name: "Lucro"
+        description: "Lucro total em pedidos, onde lucro é a soma das quantidades de produtos vezes seu preço, menos seu custo, sem ajustes"
+        column: "Lucro"
+      revenue:
+        name: "Receita"
+        description: "Receita total em pedidos, onde receita é a soma dos preços os itens do pedido sem ajustes, como impostos e frete"
+        column: "Receita"
+      units:
+        name: "Unidades"
+        description: "Quantidade de itens vendidos em pedidos, a soma das quantidades de itens por ordem ou por produto"
+        column: "Unidades"
+    geo_report:
+      profit:
+        table:
+          - location
+          - Lucro
+        name: "Lucro por Estado"
+        description: "Lucro dividido geograficamente em estados"
+        column: "Lucro"
+      revenue:
+        table:
+          - location
+          - Receita
+        name: "Receita por Estado"
+        description: "Receita dividida geograficamente em estados"
+        column: "Receita"
+      units:
+        table:
+          - location
+          - Unidades
+        name: "Unidades vendidas por Estado"
+        description: Unidades vendidas divididas geograficamente em estados
+        column: "Unidades"

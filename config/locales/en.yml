@@ -1,5 +1,21 @@
+---
 en:
+  report_default: Report Default
+  sales_total_description: "Sales Total"
+  sales_total: "Sales Total"
   adv_report:
+    increments:
+      - daily
+      - weekly
+      - monthly
+      - quarterly
+      - yearly
+    dashboard: Dashboard
+    daily: Daily
+    weekly: Weekly
+    monthly: Monthly
+    quarterly: Quarterly
+    yearly: Yearly
     dashboard: Dashboard
     daily: Daily
     weekly: Weekly
@@ -15,19 +31,33 @@ en:
     geo_revenue: "Geo Revenue"
     geo_units: "Geo Units"
     geo_profit: "Geo Profit"
+    transactions: Transactions
+    outstanding: Outstanding
+    states: States
+    countries: Countries
     base:
       range: Date Range
-      from: De
-      after: Depois
-      before: Antes
-      all: Todos
+      from: From
+      after: After
+      before: Before
+      all: All
       name: "Base Advanced Report"
       description: "Base Advanced Report"
     top_report:
       top_customers:
+        table:
+          - email
+          - Units
+          - Revenue
+        customer_email: Customer Email
         name: "Top Customers"
         description: "Top purchasing customers, calculated by revenue"
       top_products:
+        table:
+          - name
+          - Units
+          - Revenue
+        product_name: Name of Product
         name: "Top Selling Products by Revenue"
         description: "Top selling products, calculated by revenue"
     increment_report:
@@ -49,15 +79,23 @@ en:
         column: "Units"
     geo_report:
       profit:
+        table:
+          - location
+          - Profit
         name: "Profit by Geography"
         description: "Profit divided geographically, into states and countries"
         column: "Profit"
       revenue:
+        table:
+          - location
+          - Revenue
         name: "Revenue by Geography"
         description: "Revenue divided geographically, into states and countries"
         column: "Revenue"
       units:
+        table:
+          - location
+          - Units
         name: "Units Sold by Geography"
         description: "Unit sales divided geographically, into states and countries"
         column: "Units"
-      
